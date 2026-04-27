@@ -316,13 +316,13 @@ function fetchTrends(){
     +'\n{"italy":{"meta":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"medio","idea":"I"}],"tiktok":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista","Canzone2 - Artista2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista"],"format":"F","engagement":"medio","idea":"I"}]},"international":{"meta":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"medio","idea":"I"}],"tiktok":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"medio","idea":"I"}]}}'
     +"\nSostituisci: T=titolo trend reale, D=descrizione reale, #h=hashtag trending reale, F=formato (Reel/Carosello/Story/Video/Duetto/Stitch), I=idea concreta per il cliente, Canzone/Artist=audio TikTok virale reale. engagement deve essere: virale, alto, o medio.";
 
-  fetch("https://api.anthropic.com/v1/messages",{
+  fetch("https://trendpluse.m-villa-a79.workers.dev",{
     method:"POST",
     headers:{
       "Content-Type":"application/json",
-      "x-api-key":key,
-      "anthropic-version":"2023-06-01",
-      "anthropic-dangerous-direct-browser-calls":"true"
+      
+      
+      
     },
     body:JSON.stringify({
       model:"claude-haiku-4-5-20251001",
