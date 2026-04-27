@@ -7,9 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#fff;--bg2:#f7f6f3;--bg3:#eeecea;--tx:#1a1a1a;--tx2:#6b6b6b;--tx3:#aaa;--br:rgba(0,0,0,.1);--br2:rgba(0,0,0,.2);--ac:#D85A30;--r:8px;--rl:12px;}
+:root{--bg:#fff;--bg2:#f7f6f3;--bg3:#eeecea;--tx:#1a1a1a;--tx2:#6b6b6b;--tx3:#aaa;--br:rgba(0,0,0,.1);--br2:rgba(0,0,0,.2);--ac:#D85A30;--r:8px;--rl:12px}
 html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx)}
 .app{display:flex;height:100vh;overflow:hidden}
+/* SIDEBAR */
 .sb{width:252px;min-width:252px;background:var(--bg2);border-right:1px solid var(--br);display:flex;flex-direction:column;overflow:hidden}
 .sb-head{padding:20px 16px 14px;border-bottom:1px solid var(--br)}
 .logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800}.logo span{color:var(--ac)}
@@ -25,24 +26,18 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);colo
 .cl-date{font-size:10px;color:var(--tx3);margin-top:1px}
 .cl-del{opacity:0;font-size:17px;color:var(--tx3);background:none;border:none;cursor:pointer;padding:0 4px;line-height:1;flex-shrink:0}
 .cl-item:hover .cl-del{opacity:1}
-.add-btn{margin:8px;padding:9px 12px;background:none;border:1px solid var(--br2);border-radius:var(--r);font-size:12px;color:var(--tx2);cursor:pointer;display:flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;transition:background .12s}
+.sb-footer{padding:10px}
+.add-btn{width:100%;padding:9px 12px;background:none;border:1px solid var(--br2);border-radius:var(--r);font-size:12px;color:var(--tx2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'DM Sans',sans-serif;transition:background .12s}
 .add-btn:hover{background:var(--bg3)}
-.add-form{padding:10px;border-top:1px solid var(--br);display:none}
-.add-form input,.add-form textarea{width:100%;border:1px solid var(--br2);border-radius:var(--r);padding:8px 10px;font-size:12px;background:var(--bg);color:var(--tx);margin-bottom:6px;font-family:'DM Sans',sans-serif;resize:none;outline:none}
+/* ADD FORM */
+.add-form{display:none;flex-direction:column;gap:6px}
+.add-form input,.add-form textarea{width:100%;border:1px solid var(--br2);border-radius:var(--r);padding:8px 10px;font-size:12px;background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;resize:none;outline:none}
 .add-form textarea{height:64px}
 .add-form input:focus,.add-form textarea:focus{border-color:var(--ac)}
 .fb{display:flex;gap:6px}
 .btn-ok{flex:1;padding:8px;background:var(--ac);border:none;border-radius:var(--r);font-size:12px;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500}
 .btn-no{flex:1;padding:8px;background:none;border:1px solid var(--br2);border-radius:var(--r);font-size:12px;color:var(--tx2);cursor:pointer;font-family:'DM Sans',sans-serif}
-.key-section{padding:12px;border-top:1px solid var(--br)}
-.key-status{display:flex;align-items:center;gap:7px;margin-bottom:8px}
-.kdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.kdot-ok{background:#4a8c1c}.kdot-no{background:#cc3333}
-.key-lbl{font-size:11px;color:var(--tx2);flex:1}
-.key-input{width:100%;border:1px solid var(--br2);border-radius:var(--r);padding:7px 9px;font-size:11px;background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:6px}
-.key-input:focus{border-color:var(--ac)}
-.key-hint{font-size:10px;color:var(--tx3);line-height:1.5}
-.key-hint a{color:var(--ac);text-decoration:none}
+/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .topbar{padding:16px 24px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0}
 .tb-left{min-width:0;flex:1}
@@ -54,6 +49,7 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);colo
 .tab{padding:12px 0;margin-right:24px;font-size:13px;font-weight:500;cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;color:var(--tx2);font-family:'DM Sans',sans-serif;transition:color .12s}
 .tab.on{color:var(--tx);border-bottom-color:var(--ac)}
 .body{flex:1;overflow-y:auto;padding:22px 24px}
+/* CARDS */
 .pf-sec{margin-bottom:32px}
 .pf-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
 .pf-badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500}
@@ -67,15 +63,16 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);colo
 .eng{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:500;white-space:nowrap;flex-shrink:0}
 .ev{background:#e5f2d8;color:#376010}.ea{background:#faecd8;color:#7a4a0a}.em{background:#eeecea;color:#555}
 .card-desc{font-size:12px;color:var(--tx2);line-height:1.55;margin-bottom:10px}
-.pill-section{margin-bottom:8px}
-.pill-label{font-size:10px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.pill-sec{margin-bottom:8px}
+.pill-lbl{font-size:10px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
 .pills{display:flex;flex-wrap:wrap;gap:4px}
 .ph{font-size:11px;color:#1155a3;background:#deedfb;padding:3px 9px;border-radius:20px;font-weight:500}
 .pa{font-size:11px;color:#7a2d8a;background:#f5e8fb;padding:3px 9px;border-radius:20px;font-weight:500}
-.pf{font-size:11px;color:#1a6b4a;background:#d8f0e8;padding:3px 9px;border-radius:20px;font-weight:500}
+.pf2{font-size:11px;color:#1a6b4a;background:#d8f0e8;padding:3px 9px;border-radius:20px;font-weight:500}
 .idea-box{background:var(--bg2);border-left:2px solid var(--ac);border-radius:0 var(--r) var(--r) 0;padding:9px 11px;margin-bottom:10px}
 .idea-lbl{font-size:10px;font-weight:500;color:var(--ac);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
 .idea-txt{font-size:12px;line-height:1.45}
+/* STATES */
 .center{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:280px;gap:12px;text-align:center;color:var(--tx2)}
 .c-icon{font-size:38px;opacity:.2}
 .c-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--tx)}
@@ -88,12 +85,12 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);colo
 .cbadge{font-size:11px;color:var(--tx3);background:var(--bg2);border:1px solid var(--br);padding:3px 10px;border-radius:20px}
 .ref-btn{font-size:12px;color:var(--tx2);background:none;border:1px solid var(--br2);padding:5px 12px;border-radius:var(--r);cursor:pointer;font-family:'DM Sans',sans-serif}
 .err{background:#fdf0ee;border:1px solid #f5c8c0;border-radius:var(--r);padding:16px;font-size:13px;color:#922;line-height:1.7;margin-top:16px}
-.err code{background:#f9e0da;padding:2px 6px;border-radius:4px;font-size:12px}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--br2);border-radius:4px}
 </style>
 </head>
 <body>
 <div class="app">
+
   <div class="sb">
     <div class="sb-head">
       <div class="logo">trend<span>pulse</span></div>
@@ -101,26 +98,27 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);colo
     </div>
     <div class="sb-label">Clienti</div>
     <div class="cl-list" id="clList"></div>
-    <button class="add-btn" id="addBtn">
-      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Aggiungi cliente
-    </button>
-    <div class="add-form" id="addForm">
-      <input type="text" id="inName" placeholder="Nome cliente o brand..."/>
-      <textarea id="inDesc" placeholder="Settore, prodotti, target, tono di voce..."></textarea>
-      <div class="fb">
-        <button class="btn-ok" id="saveBtn">Salva</button>
-        <button class="btn-no" id="cancelBtn">Annulla</button>
+    <div class="sb-footer">
+      <div class="add-form" id="addForm">
+        <input type="text" id="inName" placeholder="Nome cliente o brand..."/>
+        <textarea id="inDesc" placeholder="Settore, prodotti, target, tono di voce..."></textarea>
+        <div class="fb">
+          <button class="btn-ok" id="saveBtn">Salva</button>
+          <button class="btn-no" id="cancelBtn">Annulla</button>
+        </div>
       </div>
+      <button class="add-btn" id="addBtn">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Aggiungi cliente
+      </button>
     </div>
-
   </div>
 
   <div class="main">
     <div class="topbar">
       <div class="tb-left">
         <div class="tb-title" id="tbTitle">Seleziona un cliente</div>
-        <div class="tb-meta" id="tbMeta">Configura la API key e aggiungi un cliente per iniziare</div>
+        <div class="tb-meta" id="tbMeta">Aggiungi un profilo cliente per iniziare</div>
       </div>
       <button class="go-btn" id="goBtn" disabled>
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M9 9l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -135,16 +133,17 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);colo
       <div class="center">
         <div class="c-icon">◎</div>
         <div class="c-title">Benvenuto in TrendPulse</div>
-        <div class="c-sub">Inserisci la tua API key Anthropic in basso a sinistra, poi aggiungi un cliente e clicca "Analizza trend".</div>
+        <div class="c-sub">Aggiungi un cliente dalla sidebar e clicca "Analizza trend" per scoprire hashtag del giorno, audio virali TikTok e format efficaci.</div>
       </div>
     </div>
   </div>
-</div>
 
+</div>
 <script>
-var LS_CL="tp_cl_v4", LS_TR="tp_tr_v4", LS_KEY="tp_key_v1";
-var COLS=["#D85A30","#185FA5","#1D9E75","#993556","#534AB7","#BA7517","#639922","#D4537E"];
-var clients=[], sel=null, cache={}, tab="italy", busy=false;
+var WORKER = "https://trendpluse.m-villa-a79.workers.dev";
+var LS_CL = "tp_cl_v5", LS_TR = "tp_tr_v5";
+var COLS = ["#D85A30","#185FA5","#1D9E75","#993556","#534AB7","#BA7517","#639922","#D4537E"];
+var clients = [], sel = null, cache = {}, tab = "italy", busy = false;
 
 function ini(n){return(n||"").trim().split(/\s+/).map(function(w){return w[0]||"";}).join("").toUpperCase().slice(0,2)||"?";}
 function col(id){return COLS[Math.abs(parseInt(id,10))%COLS.length];}
@@ -152,26 +151,6 @@ function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").
 function fd(iso){try{return new Date(iso).toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"});}catch(e){return "";}}
 function ft(iso){try{return new Date(iso).toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"});}catch(e){return "";}}
 
-/* KEY */
-function getKey(){return localStorage.getItem(LS_KEY)||"";}
-function updateKeyUI(){
-  var k=getKey();
-  document.getElementById("kdot").className="kdot "+(k?"kdot-ok":"kdot-no");
-  document.getElementById("klbl").textContent=k?"API Key configurata ✓":"API Key non configurata";
-  if(k) document.getElementById("keyInput").placeholder="••••••••••••••••";
-}
-document.getElementById("keySave").addEventListener("click",function(){
-  var v=document.getElementById("keyInput").value.trim();
-  if(v){localStorage.setItem(LS_KEY,v);document.getElementById("keyInput").value="";}
-  updateKeyUI();
-});
-document.getElementById("keyDel").addEventListener("click",function(){
-  localStorage.removeItem(LS_KEY);
-  document.getElementById("keyInput").value="";
-  updateKeyUI();
-});
-
-/* PERSIST */
 function saveCl(){try{localStorage.setItem(LS_CL,JSON.stringify(clients));}catch(e){}}
 function loadCl(){try{clients=JSON.parse(localStorage.getItem(LS_CL)||"[]");}catch(e){clients=[];}}
 function saveTr(id,data){
@@ -185,7 +164,6 @@ function saveTr(id,data){
 function loadTr(){try{cache=JSON.parse(localStorage.getItem(LS_TR)||"{}");}catch(e){cache={};}}
 function getCa(id){return id&&cache[id]?cache[id]:null;}
 
-/* SIDEBAR */
 function renderList(){
   var el=document.getElementById("clList");
   if(!clients.length){el.innerHTML='<div class="cl-empty">Nessun cliente.<br>Aggiungine uno.</div>';return;}
@@ -199,7 +177,8 @@ function renderList(){
   }).join("");
   el.querySelectorAll(".cl-item").forEach(function(item){
     item.addEventListener("click",function(e){
-      if(e.target.closest(".cl-del")){delCl(e.target.closest(".cl-del").dataset.del);return;}
+      var del=e.target.closest(".cl-del");
+      if(del){delCl(del.dataset.del);return;}
       var f=clients.find(function(c){return c.id===item.dataset.id;});
       if(f)pick(f);
     });
@@ -207,7 +186,7 @@ function renderList(){
 }
 
 function pick(c){
-  sel=c; renderList();
+  sel=c;renderList();
   document.getElementById("tbTitle").textContent=c.name;
   document.getElementById("goBtn").disabled=false;
   var ca=getCa(c.id);
@@ -238,28 +217,28 @@ function resetMain(){
 }
 
 function showEmpty(){
-  document.getElementById("mainBody").innerHTML='<div class="center"><div class="c-icon">◈</div>'
-    +'<div class="c-title">Pronto per '+esc(sel.name)+'</div>'
-    +'<div class="c-sub">Clicca "Analizza trend" per trovare hashtag, audio virali TikTok e format efficaci.</div></div>';
+  document.getElementById("mainBody").innerHTML='<div class="center"><div class="c-icon">◈</div><div class="c-title">Pronto per '+esc(sel.name)+'</div><div class="c-sub">Clicca "Analizza trend" per trovare hashtag, audio virali TikTok e format efficaci.</div></div>';
 }
 
-/* ADD */
 document.getElementById("addBtn").addEventListener("click",function(){
-  document.getElementById("addForm").style.display="block";
+  document.getElementById("addForm").style.display="flex";
   document.getElementById("addBtn").style.display="none";
   document.getElementById("inName").focus();
 });
 document.getElementById("cancelBtn").addEventListener("click",function(){
   document.getElementById("addForm").style.display="none";
   document.getElementById("addBtn").style.display="flex";
-  document.getElementById("inName").value="";document.getElementById("inDesc").value="";
+  document.getElementById("inName").value="";
+  document.getElementById("inDesc").value="";
 });
 function doAdd(){
-  var name=document.getElementById("inName").value.trim();if(!name)return;
+  var name=document.getElementById("inName").value.trim();
+  if(!name)return;
   var desc=document.getElementById("inDesc").value.trim();
   var c={id:Date.now().toString(),name:name,desc:desc};
   clients.push(c);saveCl();
-  document.getElementById("inName").value="";document.getElementById("inDesc").value="";
+  document.getElementById("inName").value="";
+  document.getElementById("inDesc").value="";
   document.getElementById("addForm").style.display="none";
   document.getElementById("addBtn").style.display="flex";
   renderList();pick(c);
@@ -267,7 +246,6 @@ function doAdd(){
 document.getElementById("saveBtn").addEventListener("click",doAdd);
 document.getElementById("inName").addEventListener("keydown",function(e){if(e.key==="Enter")doAdd();});
 
-/* TABS */
 document.getElementById("tabsBar").addEventListener("click",function(e){
   var btn=e.target.closest(".tab");if(!btn)return;
   tab=btn.dataset.t;
@@ -276,7 +254,6 @@ document.getElementById("tabsBar").addEventListener("click",function(e){
   var ca=getCa(sel&&sel.id);if(ca)renderTrends(ca.data,true);
 });
 
-/* FETCH */
 document.getElementById("goBtn").addEventListener("click",fetchTrends);
 
 function fetchTrends(){
@@ -284,31 +261,25 @@ function fetchTrends(){
   busy=true;
   document.getElementById("goBtn").disabled=true;
   document.getElementById("tabsBar").style.display="none";
-  document.getElementById("mainBody").innerHTML='<div class="center"><div class="spin"></div>'
-    +'<div class="c-title" style="margin-top:10px">Analisi in corso…</div>'
-    +'<div class="c-sub">Sto cercando hashtag, audio virali e format per <strong>'+esc(sel.name)+'</strong></div></div>';
+  document.getElementById("mainBody").innerHTML='<div class="center"><div class="spin"></div><div class="c-title" style="margin-top:10px">Analisi in corso…</div><div class="c-sub">Sto cercando hashtag, audio virali e format per <strong>'+esc(sel.name)+'</strong></div></div>';
 
   var today=new Date().toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"});
   var nm=(sel.name||"").replace(/[\\"\n]/g," ").slice(0,80);
   var dc=(sel.desc||"settore generico").replace(/[\\"\n]/g," ").slice(0,250);
 
   var prompt="Sei un social media strategist. Oggi: "+today+". Cliente: "+nm+". Profilo: "+dc+"."
-    +" Genera trend social per questo cliente separando Italia e internazionale."
-    +" Rispondi SOLO con JSON valido (zero testo extra, zero backtick, zero markdown)."
-    +" Schema con 3 trend per sezione:"
-    +'\n{"italy":{"meta":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"medio","idea":"I"}],"tiktok":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista","Canzone2 - Artista2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista"],"format":"F","engagement":"medio","idea":"I"}]},"international":{"meta":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"medio","idea":"I"}],"tiktok":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"medio","idea":"I"}]}}'
-    +"\nSostituisci: T=titolo trend reale, D=descrizione reale, #h=hashtag trending reale, F=formato (Reel/Carosello/Story/Video/Duetto/Stitch), I=idea concreta per il cliente, Canzone/Artist=audio TikTok virale reale. engagement deve essere: virale, alto, o medio.";
+    +" Genera trend social separando Italia e internazionale."
+    +" Rispondi SOLO con JSON valido, zero testo extra, zero backtick."
+    +' Schema (3 trend per sezione): {"italy":{"meta":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"medio","idea":"I"}],"tiktok":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista","Canzone2 - Artista2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista"],"format":"F","engagement":"medio","idea":"I"}]},"international":{"meta":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"medio","idea":"I"}],"tiktok":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"medio","idea":"I"}]}}'
+    +" Sostituisci: T=titolo trend reale, D=descrizione reale, #h=hashtag trending reale, F=formato (Reel/Carosello/Story/Video/Duetto/Stitch), I=idea concreta per il cliente, Canzone/Artist=audio TikTok virale reale. engagement: virale, alto, o medio.";
 
-  fetch("https://trendpluse.m-villa-a79.workers.dev",{
+  fetch(WORKER,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1800,messages:[{role:"user",content:prompt}]})
   })
   .then(function(r){
-    if(!r.ok)return r.json().then(function(d){
-      var msg=d.error?d.error.message:JSON.stringify(d);
-      throw new Error("[HTTP "+r.status+"] "+msg);
-    });
+    if(!r.ok)return r.json().then(function(d){throw new Error("[HTTP "+r.status+"] "+(d.error?d.error.message:JSON.stringify(d)));});
     return r.json();
   })
   .then(function(data){
@@ -316,7 +287,7 @@ function fetchTrends(){
     (data.content||[]).forEach(function(b){if(b.type==="text")raw+=b.text;});
     raw=raw.replace(/```json/gi,"").replace(/```/g,"").trim();
     var s=raw.indexOf("{"),e=raw.lastIndexOf("}");
-    if(s<0||e<0)throw new Error("Risposta non valida dal modello. Riprova.");
+    if(s<0||e<0)throw new Error("Risposta non valida. Riprova.");
     var parsed=JSON.parse(raw.slice(s,e+1));
     saveTr(sel.id,parsed);
     renderList();
@@ -325,10 +296,7 @@ function fetchTrends(){
     renderTrends(parsed,false);
   })
   .catch(function(err){
-    var extra="";
-    if(err.message.indexOf("401")>-1) extra="<br><br>La API key non è valida. Controlla che sia corretta e riprova.";
-    else if(err.message.indexOf("Failed to fetch")>-1) extra="<br><br>Errore di rete. Controlla la connessione e riprova.";
-    document.getElementById("mainBody").innerHTML='<div class="err"><strong>Errore durante l\'analisi.</strong><br><br><code>'+esc(err.message)+'</code>'+extra+'</div>';
+    document.getElementById("mainBody").innerHTML='<div class="err"><strong>Errore.</strong><br><br>'+esc(err.message)+'</div>';
   })
   .finally(function(){busy=false;document.getElementById("goBtn").disabled=false;});
 }
@@ -351,13 +319,13 @@ function renderTrends(data,fromCache){
       var ec=t.engagement==="virale"?"ev":t.engagement==="alto"?"ea":"em";
       var hp=(t.hashtags||[]).map(function(h){return'<span class="ph">'+esc(h)+'</span>';}).join("");
       var ap=(t.trending_audio||[]).map(function(a){return'<span class="pa">♪ '+esc(a)+'</span>';}).join("");
-      var fp=t.format?'<span class="pf">'+esc(t.format)+'</span>':"";
+      var fp=t.format?'<span class="pf2">'+esc(t.format)+'</span>':"";
       html+='<div class="card">'
         +'<div class="card-top"><div class="card-title">'+esc(t.title||"")+'</div><span class="eng '+ec+'">'+esc(t.engagement||"medio")+'</span></div>'
         +'<div class="card-desc">'+esc(t.description||"")+'</div>';
-      if(hp)html+='<div class="pill-section"><div class="pill-label">Hashtag trending</div><div class="pills">'+hp+'</div></div>';
-      if(ap)html+='<div class="pill-section"><div class="pill-label">Audio virale TikTok</div><div class="pills">'+ap+'</div></div>';
-      if(fp)html+='<div class="pill-section"><div class="pill-label">Format consigliato</div><div class="pills">'+fp+'</div></div>';
+      if(hp)html+='<div class="pill-sec"><div class="pill-lbl">Hashtag trending</div><div class="pills">'+hp+'</div></div>';
+      if(ap)html+='<div class="pill-sec"><div class="pill-lbl">Audio virale TikTok</div><div class="pills">'+ap+'</div></div>';
+      if(fp)html+='<div class="pill-sec"><div class="pill-lbl">Format consigliato</div><div class="pills">'+fp+'</div></div>';
       if(t.idea)html+='<div class="idea-box"><div class="idea-lbl">💡 Idea contenuto</div><div class="idea-txt">'+esc(t.idea)+'</div></div>';
       html+='</div>';
     });
@@ -366,7 +334,7 @@ function renderTrends(data,fromCache){
   document.getElementById("mainBody").innerHTML=html;
 }
 
-loadCl();loadTr();updateKeyUI();renderList();
+loadCl();loadTr();renderList();
 if(clients.length)pick(clients[0]);
 </script>
 </body>
