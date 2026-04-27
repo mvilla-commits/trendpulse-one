@@ -113,18 +113,7 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);colo
         <button class="btn-no" id="cancelBtn">Annulla</button>
       </div>
     </div>
-    <div class="key-section">
-      <div class="key-status">
-        <span class="kdot" id="kdot"></span>
-        <span class="key-lbl" id="klbl">API Key Anthropic</span>
-      </div>
-      <input type="password" class="key-input" id="keyInput" placeholder="sk-ant-api03-..."/>
-      <div class="fb" style="margin-bottom:8px">
-        <button class="btn-ok" id="keySave">Salva chiave</button>
-        <button class="btn-no" id="keyDel">Rimuovi</button>
-      </div>
-      <div class="key-hint">Salvata solo nel browser.<br><a href="https://console.anthropic.com/settings/keys" target="_blank">Ottieni la tua API key →</a></div>
-    </div>
+
   </div>
 
   <div class="main">
@@ -292,12 +281,6 @@ document.getElementById("goBtn").addEventListener("click",fetchTrends);
 
 function fetchTrends(){
   if(!sel||busy)return;
-  var key=getKey();
-  if(!key){
-    alert("Inserisci prima la tua API key Anthropic nel pannello in basso a sinistra.");
-    document.getElementById("keyInput").focus();
-    return;
-  }
   busy=true;
   document.getElementById("goBtn").disabled=true;
   document.getElementById("tabsBar").style.display="none";
@@ -318,14 +301,8 @@ function fetchTrends(){
 
   fetch("https://trendpluse.m-villa-a79.workers.dev",{
     method:"POST",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({
-      model:"claude-haiku-4-5-20251001",
-      max_tokens:1800,
-      messages:[{role:"user",content:prompt}]
-    })
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1800,messages:[{role:"user",content:prompt}]})
   })
   .then(function(r){
     if(!r.ok)return r.json().then(function(d){
