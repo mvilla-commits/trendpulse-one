@@ -264,6 +264,83 @@ function fetchTrends(){
   document.getElementById("mainBody").innerHTML='<div class="center"><div class="spin"></div><div class="c-title" style="margin-top:10px">Analisi in corso…</div><div class="c-sub">Sto cercando hashtag, audio virali e format per <strong>'+esc(sel.name)+'</strong></div></div>';
 
   var today=new Date().toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"});
+  var nm=(sel.name||"").replace(/[\n]/g," ").slice(0,80);
+  var dc=(sel.desc||"settore generico").replace(/[\n]/g," ").slice(0,250);
+
+  var tool={
+    name:"genera_trend",
+    description:"Genera trend social media per un cliente specifico",
+    input_schema:{
+      type:"object",
+      required:["italy","international"],
+      properties:{
+        italy:{
+          type:"object",
+          required:["meta","tiktok"],
+          properties:{
+            meta:{type:"array",items:{type:"object",required:["title","description","hashtags","format","engagement","idea"],properties:{title:{type:"string"},description:{type:"string"},hashtags:{type:"array",items:{type:"string"}},format:{type:"string"},engagement:{type:"string",enum:["virale","alto","medio"]},idea:{type:"string"}}}},
+            tiktok:{type:"array",items:{type:"object",required:["title","description","hashtags","trending_audio","format","engagement","idea"],properties:{title:{type:"string"},description:{type:"string"},hashtags:{type:"array",items:{type:"string"}},trending_audio:{type:"array",items:{type:"string"}},format:{type:"string"},engagement:{type:"string",enum:["virale","alto","medio"]},idea:{type:"string"}}}}
+          }
+        },
+        international:{
+          type:"object",
+          required:["meta","tiktok"],
+          properties:{
+            meta:{type:"array",items:{type:"object",required:["title","description","hashtags","format","engagement","idea"],properties:{title:{type:"string"},description:{type:"string"},hashtags:{type:"array",items:{type:"string"}},format:{type:"string"},engagement:{type:"string",enum:["virale","alto","medio"]},idea:{type:"string"}}}},
+            tiktok:{type:"array",items:{type:"object",required:["title","description","hashtags","trending_audio","format","engagement","idea"],properties:{title:{type:"string"},description:{type:"string"},hashtags:{type:"array",items:{type:"string"}},trending_audio:{type:"array",items:{type:"string"}},format:{type:"string"},engagement:{type:"string",enum:["virale","alto","medio"]},idea:{type:"string"}}}}
+          }
+        }
+      }
+    }
+  };
+
+  var prompt="Sei un social media strategist. Oggi: "+today+". "
+    +"Cliente: "+nm+". Profilo: "+dc+". "
+    +"Usa lo strumento genera_trend per restituire 3 trend per sezione (italia meta, italia tiktok, internazionale meta, internazionale tiktok). "
+    +"Per ogni trend includi hashtag reali trending, audio TikTok virali reali, format efficace e idea contenuto specifica per il cliente.";
+
+  fetch(WORKER,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      model:"claude-haiku-4-5-20251001",
+      max_tokens:2000,
+      tools:[tool],
+      tool_choice:{type:"any"},
+      messages:[{role:"user",content:prompt}]
+    })
+  })
+  .then(function(r){
+    if(!r.ok)return r.json().then(function(d){throw new Error("[HTTP "+r.status+"] "+(d.error?d.error.message:JSON.stringify(d)));});
+    return r.json();
+  })
+  .then(function(data){
+    var toolBlock=null;
+    (data.content||[]).forEach(function(b){if(b.type==="tool_use")toolBlock=b;});
+    if(!toolBlock||!toolBlock.input)throw new Error("Nessun dato ricevuto. Riprova.");
+    var parsed=toolBlock.input;
+    saveTr(sel.id,parsed);
+    renderList();
+    document.getElementById("tbMeta").textContent="Ultima analisi: "+fd(new Date().toISOString())+" alle "+ft(new Date().toISOString());
+    document.getElementById("tabsBar").style.display="flex";
+    renderTrends(parsed,false);
+  })
+  .catch(function(err){
+    document.getElementById("mainBody").innerHTML='<div class="err"><strong>Errore.</strong><br><br>'+esc(err.message)+'</div>';
+  })
+  .finally(function(){busy=false;document.getElementById("goBtn").disabled=false;});
+}
+
+document.getElementById("goBtn").addEventListener("click",fetchTrends);
+
+function fetchTrends(){
+  if(!sel||busy)return;
+  busy=true;
+  document.getElementById("goBtn").disabled=true;
+  document.getElementById("tabsBar").style.display="none";
+  document.getElementById("mainBody").innerHTML='<div class="center"><div class="spin"></div><div class="c-title" style="margin-top:10px">Analisi in corso…</div><div class="c-sub">Sto cercando hashtag, audio virali e format per <strong>'+esc(sel.name)+'</strong></div></div>';
+
+  var today=new Date().toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"});
   var nm=(sel.name||"").replace(/[\\"\n]/g," ").slice(0,80);
   var dc=(sel.desc||"settore generico").replace(/[\\"\n]/g," ").slice(0,250);
 
@@ -293,6 +370,7 @@ function fetchTrends(){
     jsonStr=jsonStr.replace(/\r\n/g," ").replace(/\n/g," ").replace(/\r/g," ").replace(/\t/g," ");
     // Step 2: remove other control characters
     jsonStr=jsonStr.replace(/[\x00-\x1F\x7F]/g,"");
+    jsonStr=jsonStr.replace(/\\([^"\\\/bfnrtu0-9])/g,"$1");
     // Step 3: try parse, if fails strip everything outside quotes and retry
     var parsed;
     try{
