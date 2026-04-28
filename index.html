@@ -271,7 +271,7 @@ function fetchTrends(){
     +" Genera trend social separando Italia e internazionale."
     +" Rispondi SOLO con JSON valido, zero testo extra, zero backtick."
     +' Schema (3 trend per sezione): {"italy":{"meta":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"medio","idea":"I"}],"tiktok":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista","Canzone2 - Artista2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Canzone - Artista"],"format":"F","engagement":"medio","idea":"I"}]},"international":{"meta":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"format":"F","engagement":"medio","idea":"I"}],"tiktok":[{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"virale","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"alto","idea":"I"},{"title":"T","description":"D","hashtags":["#h1","#h2"],"trending_audio":["Song - Artist"],"format":"F","engagement":"medio","idea":"I"}]}}'
-    +" Sostituisci: T=titolo trend reale, D=descrizione reale, #h=hashtag trending reale, F=formato (Reel/Carosello/Story/Video/Duetto/Stitch), I=idea concreta per il cliente, Canzone/Artist=audio TikTok virale reale. engagement: virale, alto, o medio.";
+    +" Sostituisci: T=titolo trend reale, D=descrizione reale, #h=hashtag trending reale, F=formato (Reel/Carosello/Story/Video/Duetto/Stitch), I=idea concreta per il cliente, Canzone/Artist=audio TikTok virale reale. engagement: virale, alto, o medio. IMPORTANTE: nelle stringhe JSON non usare mai apostrofi o virgolette singole, usa solo testo senza caratteri speciali.";
 
   fetch(WORKER,{
     method:"POST",
@@ -288,7 +288,20 @@ function fetchTrends(){
     raw=raw.replace(/```json/gi,"").replace(/```/g,"").trim();
     var s=raw.indexOf("{"),e=raw.lastIndexOf("}");
     if(s<0||e<0)throw new Error("Risposta non valida. Riprova.");
-    var parsed=JSON.parse(raw.slice(s,e+1));
+    var jsonStr=raw.slice(s,e+1);
+    // Fix unescaped apostrophes inside JSON string values
+    jsonStr=jsonStr.replace(/([^\\])'(?=[^,:\[\]{}"]*")/g, function(m,p){return p+"\\'";});
+    // Remove control characters
+    jsonStr=jsonStr.replace(/[\x00-\x1F\x7F]/g, function(ch){
+      if(ch==="\n"||ch==="\r"||ch==="\t")return " ";
+      return "";
+    });
+    var parsed;
+    try{ parsed=JSON.parse(jsonStr); }
+    catch(e2){
+      // Last resort: extract with a more lenient approach
+      throw new Error("JSON non valido: "+e2.message+". Riprova.");
+    }
     saveTr(sel.id,parsed);
     renderList();
     document.getElementById("tbMeta").textContent="Ultima analisi: "+fd(new Date().toISOString())+" alle "+ft(new Date().toISOString());
