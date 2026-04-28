@@ -289,18 +289,31 @@ function fetchTrends(){
     var s=raw.indexOf("{"),e=raw.lastIndexOf("}");
     if(s<0||e<0)throw new Error("Risposta non valida. Riprova.");
     var jsonStr=raw.slice(s,e+1);
-    // Fix unescaped apostrophes inside JSON string values
-    jsonStr=jsonStr.replace(/([^\\])'(?=[^,:\[\]{}"]*")/g, function(m,p){return p+"\\'";});
-    // Remove control characters
-    jsonStr=jsonStr.replace(/[\x00-\x1F\x7F]/g, function(ch){
-      if(ch==="\n"||ch==="\r"||ch==="\t")return " ";
-      return "";
-    });
+    // Step 1: replace literal newlines/tabs/carriage returns with space
+    jsonStr=jsonStr.replace(/\r\n/g," ").replace(/\n/g," ").replace(/\r/g," ").replace(/\t/g," ");
+    // Step 2: remove other control characters
+    jsonStr=jsonStr.replace(/[\x00-\x1F\x7F]/g,"");
+    // Step 3: try parse, if fails strip everything outside quotes and retry
     var parsed;
-    try{ parsed=JSON.parse(jsonStr); }
-    catch(e2){
-      // Last resort: extract with a more lenient approach
-      throw new Error("JSON non valido: "+e2.message+". Riprova.");
+    try{
+      parsed=JSON.parse(jsonStr);
+    }catch(e2){
+      // Step 4: fix unescaped double quotes inside string values by scanning char by char
+      var fixed="", inStr=false, prev="";
+      for(var i=0;i<jsonStr.length;i++){
+        var ch=jsonStr[i];
+        if(ch==='"' && prev!=="\\"){
+          inStr=!inStr;
+          fixed+=ch;
+        } else if(inStr && ch==='"'){
+          fixed+='\\"';
+        } else {
+          fixed+=ch;
+        }
+        prev=ch;
+      }
+      try{ parsed=JSON.parse(fixed); }
+      catch(e3){ throw new Error("JSON non valido: "+e3.message+". Riprova."); }
     }
     saveTr(sel.id,parsed);
     renderList();
